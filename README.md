@@ -1,7 +1,7 @@
 # Repositori Praktikum Pemrograman Web 2026
 **Informasi Mahasiswa:**
 * **Nama:** Ruby Nabiel Muzaffar Hidayat
-* **NIM:** 24066012
+* **NIM:** 2406012
 * **Kelas/Prodi:** Teknik Informatika - ITG
 * **Kode MK:** IFRWP5151
 ---
