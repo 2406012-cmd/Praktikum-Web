@@ -9,7 +9,7 @@
 - Instalasi & Verifikasi Tools (VS Code, Node.js, Laragon, Git).
 - Uji coba Laragon MySQL berjalan pada Port 3306.
 - Konfigurasi identitas Git global.
-
+---
 ### Spesifikasi Perangkat.
 - Sistem Operasi : Windows
 - Kapasitas RAM : 8 GB
