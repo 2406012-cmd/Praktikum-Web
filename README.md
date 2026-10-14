@@ -9,6 +9,13 @@
 - Instalasi & Verifikasi Tools (VS Code, Node.js, Laragon, Git).
 - Uji coba Laragon MySQL berjalan pada Port 3306.
 - Konfigurasi identitas Git global.
+## Catatan Modul 2
+- Pengenalan HTML dan Anatomi Dokumen
+- Tag Semantik HTML vs Non-Semantik
+- Praktik Membuat Website berbasis HTML
+## Catatan Modul 3
+- Pengenalan CSS 
+- Praktik Membuat Styling CSS Pada Website HTML
 ---
 ## Tugas Terstruktur
 ### Spesifikasi Perangkat.
