@@ -17,7 +17,7 @@
 - Pengenalan CSS 
 - Praktik Membuat Styling CSS Pada Website HTML
 ---
-## Tugas Terstruktur
+## Tugas Terstruktur 1
 ### Spesifikasi Perangkat.
 - Sistem Operasi : Windows
 - Kapasitas RAM : 8 GB
@@ -25,3 +25,9 @@
 - Versi Git : version 2.55.0.Windows.5
 - Laptop Yang DIgunakan : Acer Nitro V15
 - Processor : NVIDIA GeForce 2050, Intel(R) UHD Graphics
+## Tugas Terstruktur 2
+- Mengembangkan Web Berbasis HTML
+- Menambahkan Resume dan Projek ke dalam Web HTML
+## Tugas Terstruktur 3
+- Mengenhance Web Dalam Styling CSS
+- Menambahkan Elemen Baru Ke Dalam Web
