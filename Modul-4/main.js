@@ -1,33 +1,13 @@
-const projects = [
-  {
-    id: 1,
-    title: "Sistem Inventaris Keuangan",
-    category: "Web App",
-    budget: 2500000,
-    completed: true
-  },
-  {
-    id: 2,
-    title: "Sistem Kasir Digital POS",
-    category: "Desktop App",
-    budget: 5000000,
-    completed: true
-  },
-  {
-    id: 3,
-    title: "Landing Page Profil Perusahaan",
-    category: "Web App",
-    budget: 1500000,
-    completed: false
-  },
-  {
-    id: 4,
-    title: "Aplikasi Presensi GPS Mobile",
-    category: "Mobile App",
-    budget: 4500000,
-    completed: false
-  }
+// Data Array Proyek Utama
+let projects = [
+  { id: 1, title: "Sistem Inventaris Keuangan", category: "Web App", budget: 2500000, completed: true },
+  { id: 2, title: "Sistem Kasir Digital POS", category: "Desktop App", budget: 5000000, completed: true },
+  { id: 3, title: "Landing Page Profil Perusahaan", category: "Web App", budget: 1500000, completed: false },
+  { id: 4, title: "Aplikasi Presensi GPS Mobile", category: "Mobile App", budget: 4500000, completed: false }
 ];
+
+let activeCategory = "Semua";
+let searchQuery = "";
 
 const formatRupiah = (angka) => {
   return new Intl.NumberFormat('id-ID', {
@@ -37,26 +17,40 @@ const formatRupiah = (angka) => {
   }).format(angka);
 };
 
-const updateStats = (dataList) => {
-  const totalProjects = dataList.length;
-  const totalBudget = dataList.reduce((acc, curr) => acc + curr.budget, 0);
-  const completedCount = dataList.filter(item => item.completed).length;
+const updateStats = () => {
+  const totalProjects = projects.length;
+  const totalBudget = projects.reduce((acc, curr) => acc + curr.budget, 0);
+  const completedCount = projects.filter(item => item.completed).length;
 
   document.getElementById("stat-total-projects").textContent = totalProjects;
   document.getElementById("stat-total-budget").textContent = formatRupiah(totalBudget);
   document.getElementById("stat-completed-projects").textContent = completedCount;
 };
 
-const renderProjects = (filteredList) => {
+const applyFilterAndRender = () => {
+  let filtered = projects;
+
+  if (activeCategory !== "Semua") {
+    filtered = filtered.filter(p => p.category === activeCategory);
+  }
+
+  if (searchQuery.trim() !== "") {
+    filtered = filtered.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  }
+
+  renderProjects(filtered);
+};
+
+const renderProjects = (dataList) => {
   const container = document.getElementById("project-list");
   if (!container) return;
 
-  if (filteredList.length === 0) {
-    container.innerHTML = "<p style='text-align: center; color: #64748b; padding: 20px;'>Tidak ada proyek pada kategori ini.</p>";
+  if (dataList.length === 0) {
+    container.innerHTML = "<p style='text-align: center; color: #64748b; padding: 20px;'>Tidak ada proyek yang sesuai.</p>";
     return;
   }
 
-  const htmlString = filteredList.map(proj => {
+  container.innerHTML = dataList.map(proj => {
     const badgeClass = proj.completed ? "badge-success" : "badge-pending";
     const statusText = proj.completed ? "Selesai" : "Dalam Pengerjaan";
 
@@ -67,19 +61,82 @@ const renderProjects = (filteredList) => {
           <h4>${proj.title}</h4>
           <p class="project-budget">${formatRupiah(proj.budget)}</p>
         </div>
-        <div>
+        <div class="project-actions">
           <span class="badge ${badgeClass}">${statusText}</span>
+          <button class="btn-action" onclick="toggleStatus(${proj.id})">Ubah Status</button>
+          <button class="btn-action btn-delete" onclick="deleteProject(${proj.id})">Hapus</button>
         </div>
       </div>
     `;
   }).join("");
+};
 
-  container.innerHTML = htmlString;
+const handleAddProject = (e) => {
+  e.preventDefault();
+
+  const titleInput = document.getElementById("title");
+  const categoryInput = document.getElementById("category");
+  const budgetInput = document.getElementById("budget");
+  const completedInput = document.getElementById("completed");
+
+  const title = titleInput.value.trim();
+  const category = categoryInput.value;
+  const budget = parseFloat(budgetInput.value);
+  const completed = completedInput.checked;
+
+
+  if (!title || isNaN(budget) || budget <= 0) {
+    alert("Mohon isi judul dan anggaran dengan benar!");
+    return;
+  }
+
+ 
+  const newProject = {
+    id: Date.now(),
+    title,
+    category,
+    budget,
+    completed
+  };
+
+  projects.push(newProject);
+
+  document.getElementById("project-form").reset();
+
+  updateStats();
+  applyFilterAndRender();
+};
+
+window.toggleStatus = (id) => {
+  projects = projects.map(proj => {
+    if (proj.id === id) {
+      return { ...proj, completed: !proj.completed };
+    }
+    return proj;
+  });
+
+  updateStats();
+  applyFilterAndRender();
+};
+
+window.deleteProject = (id) => {
+  if (confirm("Apakah Anda yakin ingin menghapus proyek ini?")) {
+    projects = projects.filter(proj => proj.id !== id);
+    updateStats();
+    applyFilterAndRender();
+  }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderProjects(projects);
-  updateStats(projects);
+  updateStats();
+  applyFilterAndRender();
+
+  document.getElementById("project-form").addEventListener("submit", handleAddProject);
+
+  document.getElementById("search-input").addEventListener("input", (e) => {
+    searchQuery = e.target.value;
+    applyFilterAndRender();
+  });
 
   const filterButtons = document.querySelectorAll(".btn-filter");
   filterButtons.forEach(btn => {
@@ -87,13 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
       filterButtons.forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
 
-      const selectedCategory = e.target.getAttribute("data-category");
-      if (selectedCategory === "Semua") {
-        renderProjects(projects);
-      } else {
-        const filtered = projects.filter(p => p.category === selectedCategory);
-        renderProjects(filtered);
-      }
+      activeCategory = e.target.getAttribute("data-category");
+      applyFilterAndRender();
     });
   });
 });
