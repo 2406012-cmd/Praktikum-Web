@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pertemuan 6 - Api</title>
+    <title>Modul 6 - User Directory App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h2>Daftar Pengguna</h2>
-        <p class="subtitle">Praktikum Asynchronus Javascript dan Fetching API</p>
+        <h2>Daftar Pengguna (API Fetching)</h2>
+        <p class="subtitle">Praktikum Asynchronous JavaScript & Fetch API</p>
+        
+        <!-- Tombol Aksi -->
+        <div class="actions-bar">
+            <button id="btnFetch" class="btn-primary">Muat Data Pengguna</button>
+        </div>
+        
+        <!-- Indikator Status (Loading & Pesan Error) -->
+        <div id="statusMessage" class="status-msg">Klik tombol di atas untuk memuat data pengguna.</div>
+        
+        <!-- Kontainer Kartu Pengguna -->
+        <div id="userList" class="user-grid"></div>
     </div>
-
-    <!-- Tombol Aksi-->
-     <div class="actions bar">
-        <button class="btn-primary" id="btnFetch">Muat Data Pengguna</button>
-     </div>
-
-     <!-- Indikator Status Loading dan Pesan Error -->
-      <div class="status-msg" id="statusMessage">
-        Klik tombol Di atas Untuk memuat Data Pengguna
-      </div>
-
-      <!-- Container Card Pengguna -->
-       <div class="user-grid" id="userList"></div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
